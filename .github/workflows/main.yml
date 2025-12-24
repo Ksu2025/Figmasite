@@ -1,18 +1,18 @@
-name: Deploy Vite site to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
-push:
-branches: [ main ]
-workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
 
 permissions:
-contents: read
-pages: write
-id-token: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-group: "pages"
-cancel-in-progress: false
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 20
 
-      - run: npm install # НЕ npm ci
+      - run: npm install
       - run: npm run build
 
       - uses: actions/upload-pages-artifact@v3
@@ -36,8 +36,5 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-
-url: ${{ steps.deployment.outputs.page_url }}
-steps:
-- id: deployment
-uses: actions/deploy-pages@v4
+    steps:
+      - uses: actions/deploy-pages@v4
